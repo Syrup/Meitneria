@@ -8,9 +8,7 @@ module.exports = {
   description: "Evaluate JavaScript code",
   run(client, message, args) {
     // Check if the user has permission to use this command
-    // if (!message.member.hasPermission("ADMINISTRATOR")) {
-    //   return message.reply("You do not have permission to use this command.");
-    // }
+    if (!client.config.developers.includes(message.author.id)) return;
 
     // Join the arguments into a single string
     const code = args.join(" ");
