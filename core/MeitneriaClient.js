@@ -7,8 +7,6 @@ const {
 const mongoose = require("mongoose");
 const fs = require("fs");
 const { pino } = require("pino");
-const ansi = require("ansi-colors");
-const { default: PinoPretty } = require("pino-pretty");
 
 class MeitneriaClient extends Client {
   constructor() {
@@ -23,21 +21,19 @@ class MeitneriaClient extends Client {
     });
 
     this.env = process.env.NODE_ENV;
-    /** @type {Collection<string, {name: string, description: string, aliases?: string[], run(client: MeitneriaClient, msg: import("discord.js").Message)}>} */
+    /** @type {Collection<string, {name: string, description: string, aliases?: string[], devOnly?: boolean, run(client: MeitneriaClient, msg: import("discord.js").Message)}>} */
     this.commands = new Collection();
     /** @type {Collection<string, {data: import("discord.js").SlashCommandBuilder, global: boolean, run(client: MeitneriaClient, msg: import("discord.js").CommandInteraction)}>} */
     this.slashCommands = new Collection();
     this.config = require("../config.json");
     this.logger = pino(
-      {
-        level: this.env === "development" ? "debug" : "info",
-      },
+      {},
       pino.multistream([
         {
-          stream: fs.createWriteStream("logs.log"),
+          stream: fs.createWriteStream("logs.log", { flags: "a" }),
         },
         {
-          stream: fs.createWriteStream("logs.debug.log"),
+          stream: fs.createWriteStream("logs.debug.log", { flags: "a" }),
           level: "debug",
         },
         {
@@ -52,7 +48,6 @@ class MeitneriaClient extends Client {
     await mongoose.connect(process.env.MONGO_URI, {
       dbName: "meitneria",
     });
-    if (this.env === "development") mongoose.set("debug", true);
     if (this.env === "development") this.logger.warn("IN DEBUG MODE");
     this.logger.info("Connected to MongoDB");
     this.login(process.env.TOKEN);

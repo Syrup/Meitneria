@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("Replies with Pong!"),
   global: true,
   /**
-   * @param {import("../../core/MeitneriaClient")} client
+   * @param {import("../../../core/MeitneriaClient")} client
    * @param {import("discord.js").CommandInteraction} msg
    */
   async run(client, msg) {

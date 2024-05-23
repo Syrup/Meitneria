@@ -3,7 +3,7 @@ module.exports = {
   description: "Ping!",
   /**
    *
-   * @param {import("../../core/MeitneriaClient")} client
+   * @param {import("../../../core/MeitneriaClient")} client
    * @param {import("discord.js").Message} message
    * @param {string[]} args
    */
