@@ -13,7 +13,7 @@ class MeitneriaUtils {
   /**
    * @param {CommandInteraction | Message} interaction
    * @param {EmbedBuilder[]} pages
-   * @param {number} timeout
+   * @param {number} [timeout=30000]
    * @returns {Promise<Message> | Promise<CommandInteraction>}
    */
   async paginate(interaction, pages, timeout = 30 * 1_000) {
