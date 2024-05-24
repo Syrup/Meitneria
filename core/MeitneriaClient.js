@@ -20,6 +20,7 @@ class MeitneriaClient extends Client {
       partials: [Partials.Channel, Partials.User, Partials.Message],
     });
 
+    this.utils = new (require("./MeitneriaUtils"))();
     this.env = process.env.NODE_ENV;
     /** @type {Collection<string, {name: string, description: string, aliases?: string[], devOnly?: boolean, run(client: MeitneriaClient, msg: import("discord.js").Message)}>} */
     this.commands = new Collection();
@@ -27,7 +28,9 @@ class MeitneriaClient extends Client {
     this.slashCommands = new Collection();
     this.config = require("../config.json");
     this.logger = pino(
-      {},
+      {
+        level: this.env === "development" ? "debug" : "info",
+      },
       pino.multistream([
         {
           stream: fs.createWriteStream("logs.log", { flags: "a" }),
